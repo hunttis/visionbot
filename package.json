@@ -1,0 +1,15 @@
+{
+  "name": "visionbot",
+  "version": "0.1.0",
+  "description": "IRC bot for analysing images and detecting nsfw content via google vision API",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "author": "Aku Kolu",
+  "license": "ISC",
+  "dependencies": {
+    "irc": "^0.4.1",
+    "request-promise": "^2.0.1"
+  }
+}
