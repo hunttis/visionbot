@@ -5,7 +5,7 @@ const config = {
       server: 'irc.elisa.fi',
       nick: 'VisionBot',
       options: {
-        channels: ['#nsfwbot'],
+        channels: ['#visionbot'],
         port: 6667
       }
     },
@@ -17,7 +17,24 @@ const config = {
       violence: 'VERY_LIKELY'
     }
   },
-  production: {
+  prod_ircnet: {
+    irc: {
+      server: 'irc.inet.fi',
+      nick: 'VisionBot',
+      options: {
+        channels: ['#visionbot'],
+        port: 6667
+      }
+    },
+    labelThreshold: 0.8,
+    safeSearchTolerance: {
+      adult: 'POSSIBLE',
+      spoof: '',
+      medical: 'POSSIBLE',
+      violence: 'VERY_LIKELY'
+    }
+  },
+  prod_ihmenet: {
     irc: {
       server: 'irc.ihme.org',
       nick: 'VisionBot',
