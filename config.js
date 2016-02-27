@@ -33,6 +33,6 @@ const config = {
       medical: 'POSSIBLE',
       violence: 'VERY_LIKELY'
     }
-  },
+  }
 };
 module.exports = config[env];
