@@ -143,11 +143,9 @@ function parseSafeSearch(json) {
 
 function parseLabels(json) {
   let labels = [];
-  let labelAnnotations = json.responses[0].labelAnnotations || [];
+  let labelAnnotations = json.responses[0].labelAnnotations;
   labelAnnotations.forEach(label => {
-    if (label.score >= config.labelThreshold) {
-      labels.push(label.description);
-    }
+    labels.push(label.description);
   });
   return labels;
 }

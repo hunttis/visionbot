@@ -131,11 +131,9 @@ function parseSafeSearch(json) {
 }
 function parseLabels(json) {
   var labels = [];
-  var labelAnnotations = json.responses[0].labelAnnotations || [];
+  var labelAnnotations = json.responses[0].labelAnnotations;
   labelAnnotations.forEach(function(label) {
-    if (label.score >= config.labelThreshold) {
-      labels.push(label.description);
-    }
+    labels.push(label.description);
   });
   return labels;
 }
