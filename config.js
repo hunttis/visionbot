@@ -10,7 +10,7 @@ const config = {
       }
     },
     labelThreshold: 0.8,
-    safeSearchWarnings: {
+    safeSearchTolerance: {
       adult: 'POSSIBLE',
       spoof: '',
       medical: 'POSSIBLE',
@@ -19,18 +19,20 @@ const config = {
   },
   production: {
     irc: {
-      channels: [],
       server: 'irc.elisa.fi',
-      port: 6667,
-      botName: 'VisionBot'
+      nick: 'VisionBot',
+      options: {
+        channels: ['#nsfwbot'],
+        port: 6667
+      }
     },
     labelThreshold: 0.8,
-    safeSearchWarnings: {
+    safeSearchTolerance: {
       adult: 'POSSIBLE',
       spoof: '',
       medical: 'POSSIBLE',
       violence: 'VERY_LIKELY'
     }
-  }
+  },
 };
 module.exports = config[env];
