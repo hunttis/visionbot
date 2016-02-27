@@ -19,10 +19,10 @@ const config = {
   },
   production: {
     irc: {
-      server: 'irc.elisa.fi',
+      server: 'irc.ihme.org',
       nick: 'VisionBot',
       options: {
-        channels: ['#nsfwbot'],
+        channels: ['#ihme'],
         port: 6667
       }
     },
