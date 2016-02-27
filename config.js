@@ -9,7 +9,6 @@ const config = {
         port: 6667
       }
     },
-    labelThreshold: 0.8,
     safeSearchTolerance: {
       adult: 'POSSIBLE',
       spoof: '',
@@ -26,7 +25,6 @@ const config = {
         port: 6667
       }
     },
-    labelThreshold: 0.8,
     safeSearchTolerance: {
       adult: 'POSSIBLE',
       spoof: '',
@@ -43,7 +41,6 @@ const config = {
         port: 6667
       }
     },
-    labelThreshold: 0.8,
     safeSearchTolerance: {
       adult: 'POSSIBLE',
       spoof: '',
