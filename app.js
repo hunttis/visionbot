@@ -56,7 +56,7 @@ bot.addListener('invite', function (channel, by, mode, argument, message) {
 function processUrl(url) {
   return Promise.promisify(request.get)({url: url})
     .then(getImageUrlFromHttpResponse)
-    .then(url => !!url ? Promise.resolve() : getBase64ImageFromUrl(url).then(getImageDetailsFromVisionApi));
+    .then(url => url.length === 0 ? Promise.resolve() : getBase64ImageFromUrl(url).then(getImageDetailsFromVisionApi));
 
   function getBase64ImageFromUrl(url) {
     console.log(`Processing image ${url}`);
