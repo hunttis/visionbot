@@ -12,6 +12,7 @@ const size = require('request-image-size');
  */
 const IMAGE_PATTERN = /((http(s)?:\/\/|www.)\S+\.(jpeg|jpg|tiff|png|gif|bmp|svg)[\/]?)/g;
 const URL_PATTERN = /((http(s)?:\/\/|www.)\S*)/g;
+const MIN_IMAGE_SIZE = 90000; //equivalent of 300 x 300 px
 const VISION_API_URL = 'https://vision.googleapis.com/v1/images:annotate?key=';
 const VISION_API_KEY = fs.readFileSync('api.key');
 const SAFE_SEARCH_LIKELIHOOD = ['UNKNOWN', 'VERY_UNLIKELY', 'UNLIKELY', 'POSSIBLE', 'LIKELY', 'VERY_LIKELY'];
@@ -55,8 +56,7 @@ bot.addListener('invite', function (channel, by, mode, argument, message) {
 function processUrl(url) {
   return Promise.promisify(request.get)({url: url})
     .then(getImageUrlFromHttpResponse)
-    .then(getBase64ImageFromUrl)
-    .then(getImageDetailsFromVisionApi);
+    .then(url => !!url ? Promise.resolve() : getBase64ImageFromUrl(url).then(getImageDetailsFromVisionApi));
 
   function getBase64ImageFromUrl(url) {
     console.log(`Processing image ${url}`);
@@ -72,11 +72,13 @@ function processUrl(url) {
       return url; //if content-type is image already, no need to parse
     }
     let matches = response.body.match(IMAGE_PATTERN) || [];
-    matches = Array.from(new Set(matches));
+    matches = matches.filter(function (item, pos) {
+      return matches.indexOf(item) == pos;
+    });
     return Promise.all(matches.map(url => getSize(url)))
       .then(result => {
-        const sorted = result.sort((a, b) => b.size - a.size);
-        return sorted[0].url;
+        const sorted = result.filter(item => item.size >= MIN_IMAGE_SIZE).sort((a, b) => b.size - a.size);
+        return sorted.length > 0 ? sorted[0].url : '';
       })
       .catch(err => {
         throw new Error(`Could not fetch image(s) from ${url}`);
@@ -128,7 +130,7 @@ function parseSafeSearch(json) {
   let categories = ['adult', 'spoof', 'medical', 'violence'];
   let safeSearch = [];
   categories.forEach(category => {
-    if (isSafeSearchContent(json, category)) {
+    if (json != null && isSafeSearchContent(json, category)) {
       safeSearch.push(category);
     }
   });
@@ -143,9 +145,11 @@ function parseSafeSearch(json) {
 
 function parseLabels(json) {
   let labels = [];
-  let labelAnnotations = json.responses[0].labelAnnotations;
-  labelAnnotations.forEach(label => {
-    labels.push(label.description);
-  });
+  if (json != null) {
+    let labelAnnotations = json.responses[0].labelAnnotations;
+    labelAnnotations.forEach(label => {
+      labels.push(label.description);
+    });
+  }
   return labels;
 }
