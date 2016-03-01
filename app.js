@@ -10,8 +10,8 @@ const size = require('request-image-size');
  * Starts with 'http://', 'https://' or 'www.', contains non-whitespace characters until
  * a supported file extension and optional dash at the end is found
  */
-const IMAGE_PATTERN = /((http(s)?:\/\/|www.)\S+\.(jpeg|jpg|tiff|png|gif|bmp|svg)[\/]?)/g;
-const URL_PATTERN = /((http(s)?:\/\/|www.)\S*)/g;
+const IMAGE_PATTERN = /((http(s)?:\/\/|www\.)\S+\.(jpeg|jpg|tiff|png|gif|bmp|svg)[\/]?)/g;
+const URL_PATTERN = /((http(s)?:\/\/|www\.)\S*)/g;
 const MIN_IMAGE_SIZE = 90000; //equivalent of 300 x 300 px
 const VISION_API_URL = 'https://vision.googleapis.com/v1/images:annotate?key=';
 const VISION_API_KEY = fs.readFileSync('api.key');

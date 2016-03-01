@@ -4,7 +4,7 @@
   "description": "IRC bot for analysing images and detecting nsfw content via google vision API",
   "main": "index.js",
   "scripts": {
-    "gulp": "gulp"
+    "gulp": "/usr/bin/nodejs ./node_modules/gulp/bin/gulp.js"
   },
   "author": "Aku Kolu",
   "license": "ISC",
