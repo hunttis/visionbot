@@ -146,10 +146,13 @@ function parseSafeSearch(json) {
 function parseLabels(json) {
   let labels = [];
   if (json != null) {
-    let labelAnnotations = json.responses[0].labelAnnotations;
+    let labelAnnotations = json.responses[0].labelAnnotations || [];
     labelAnnotations.forEach(label => {
       labels.push(label.description);
     });
+    if (labels.length === 0) {
+      labels.push('I don\'t know... maybe check it out yourself?');
+    }
   }
   return labels;
 }
