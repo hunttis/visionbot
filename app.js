@@ -24,16 +24,24 @@ bot.addListener('message', function (from, to, text, message) {
   matches.forEach(img => {
     processUrl(img)
       .then(json => {
-        //analyze image
-        let labels = parseLabels(json);
-        if (labels.length > 0) {
-          bot.say(to, `Image analysis: ${labels.join(', ')}`);
-        }
+
+        var message = "";
+
         //warn about nsfw content
         let safeSearch = parseSafeSearch(json);
+
         if (safeSearch.length > 0) {
-          bot.say(to, `Warning! The image may contain NSFW material (${safeSearch.join(', ') }).`);
+          message += `Possibly NSFW! (${safeSearch.join(', ') }). `
         }
+
+        //analyze image
+        let labels = parseLabels(json);
+
+        if (labels.length > 0) {
+          message += `Image analysis: ${labels.join(', ')}`
+        }
+
+        bot.say(to, message);
       }).catch(err => {
         console.log(err);
         bot.say(to, 'Could not process image :(');
