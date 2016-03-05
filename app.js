@@ -158,6 +158,7 @@ function buildNSFWMessage(json){
   if (safeSearch.length > 0) {
     return `Possibly NSFW! (${safeSearch.join(', ') }). `
   }
+  return ""
 }
 
 function buildAnalysisMessage(json){
@@ -167,4 +168,5 @@ function buildAnalysisMessage(json){
   if (labels.length > 0) {
     return `Image analysis: ${labels.join(', ')}`
   }
+  return ""
 }
