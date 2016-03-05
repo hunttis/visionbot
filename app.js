@@ -25,8 +25,8 @@ bot.addListener('message', function (from, to, text, message) {
     processUrl(img)
       .then(json => {
 
-        val message = buildNSFWMessage(json) + buildAnalysisMessage(json);
-        bot.say(to, message);
+        val analysisMessage = buildNSFWMessage(json) + buildAnalysisMessage(json);
+        bot.say(to, analysisMessage);
 
       }).catch(err => {
         console.log(err);
