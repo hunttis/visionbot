@@ -150,7 +150,7 @@ function parseLabels(json) {
       labels.push(label.description);
     });
     if (labels.length === 0) {
-      labels.push('I don\'t know... maybe check it out yourself?');
+      labels.push('VisionAPI lookup failed (no data).');
     }
   }
   return labels;
@@ -171,7 +171,7 @@ function buildAnalysisMessage(json){
   let labels = parseLabels(json);
 
   if (labels.length > 0) {
-    return `Image analysis: ${labels.join(', ')}`;
+    return `Image analysis: ${labels.join(', ')}.`;
   }
   return '';
 }
