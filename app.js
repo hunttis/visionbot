@@ -1,5 +1,7 @@
+/*jslint node: true */
 'use strict';
 const irc = require('irc');
+/*jshint -W079 */
 const Promise = require('bluebird');
 const request = require('request');
 const config = require('./config');
@@ -33,6 +35,9 @@ bot.addListener('message', function (from, to, text, message) {
         bot.say(to, 'Could not process image :(');
       });
   });
+
+
+
 });
 
 bot.addListener('error', function (message) {
@@ -44,7 +49,7 @@ bot.addListener('registered', function (message) {
 });
 
 bot.addListener('invite', function (channel, by, mode, argument, message) {
-  bot.join(channel, () => console.log(`Joining channel ${channel} from invitation of ${by}.`))
+  bot.join(channel, () => console.log(`Joining channel ${channel} from invitation of ${by}.`));
 });
 
 function processUrl(url) {
@@ -67,7 +72,7 @@ function processUrl(url) {
     }
     let matches = response.body.match(IMAGE_PATTERN) || [];
     matches = matches.filter(function (item, pos) {
-      return matches.indexOf(item) == pos;
+      return matches.indexOf(item) === pos;
     });
     return Promise.all(matches.map(url => getSize(url)))
       .then(result => {
@@ -116,7 +121,7 @@ function processUrl(url) {
           {'type': 'SAFE_SEARCH_DETECTION', 'maxResults': 1}
         ]
       }]
-    })
+    });
   }
 }
 
@@ -124,7 +129,7 @@ function parseSafeSearch(json) {
   let categories = ['adult', 'spoof', 'medical', 'violence'];
   let safeSearch = [];
   categories.forEach(category => {
-    if (json != null && isSafeSearchContent(json, category)) {
+    if (json !== null && isSafeSearchContent(json, category)) {
       safeSearch.push(category);
     }
   });
@@ -139,7 +144,7 @@ function parseSafeSearch(json) {
 
 function parseLabels(json) {
   let labels = [];
-  if (json != null) {
+  if (json !== null) {
     let labelAnnotations = json.responses[0].labelAnnotations || [];
     labelAnnotations.forEach(label => {
       labels.push(label.description);
@@ -156,9 +161,9 @@ function buildNSFWMessage(json){
   let safeSearch = parseSafeSearch(json);
 
   if (safeSearch.length > 0) {
-    return `Possibly NSFW! (${safeSearch.join(', ') }). `
+    return `Possibly NSFW! (${safeSearch.join(', ') }). `;
   }
-  return ""
+  return '';
 }
 
 function buildAnalysisMessage(json){
@@ -166,7 +171,7 @@ function buildAnalysisMessage(json){
   let labels = parseLabels(json);
 
   if (labels.length > 0) {
-    return `Image analysis: ${labels.join(', ')}`
+    return `Image analysis: ${labels.join(', ')}`;
   }
-  return ""
+  return '';
 }
